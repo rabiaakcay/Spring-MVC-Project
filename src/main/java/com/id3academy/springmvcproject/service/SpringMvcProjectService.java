@@ -2,6 +2,7 @@ package com.id3academy.springmvcproject.service;
 
 import com.id3academy.springmvcproject.exception.ProductNotFoundException;
 import com.id3academy.springmvcproject.model.Product;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
