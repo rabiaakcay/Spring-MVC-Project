@@ -1,6 +1,0 @@
-logging:
-  level:
-    org.springframework.web: DEBUG
-  file: SpringMvcProject.log
-  logging.level.org.springframework.web: DEBUG
-  logging.level.org.hibernate: ERROR

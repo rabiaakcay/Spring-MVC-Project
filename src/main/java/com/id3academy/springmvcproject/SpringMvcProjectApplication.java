@@ -18,5 +18,4 @@ public class SpringMvcProjectApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
 }

@@ -3,9 +3,12 @@ package com.id3academy.springmvcproject.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 
+@Qualifier
 @Getter
 @Setter
 @Entity
@@ -13,9 +16,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @XmlRootElement(name="product")
-//@Table(name = "product")
-//@SecondaryTable(name = "brand", pkJoinColumns = @PrimaryKeyJoinColumn(name = "brand_id"))
-//@SecondaryTable(name = "category", pkJoinColumns = @PrimaryKeyJoinColumn(name = "category_id"))
 public class Product {
 
     @Id
@@ -265,26 +265,4 @@ public class Product {
                 ", Inventory_Count='" + Inventory_Count + '\'' +
                 '}';
     }
-
-    //    @Id
-//    @Column(name = "product_id")
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
-//    private long productId;
-//
-//    @Column(name = "product_name")
-//    private String productName;
-//
-//    @Column(name = "brand_id")
-//    private long brandId;
-//
-//    @Column(name = "category_id")
-//    private long categoryId;
-//
-//    @Embedded
-//    Brand brand;
-//
-//    @Embedded
-//    Category category;
-
-
 }
