@@ -1,31 +1,30 @@
-package com.id3academy.springmvcproject.model;
+package com.id3academy.springmvcproject.model.productInfo;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.xml.bind.annotation.XmlElement;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
-@Getter
-@Setter
+@ToString
+@Entity
 @Data
-public class AllProducts {
-
-    private Long Product_ID;
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="product")
+public class ProductInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer Product_ID;
     private String SKU;
     public String Name;
     private String Product_URL;
-    private String Price;
-    private String Retail_Price;
     private String Thumbnail_URL;
     private String Search_Keywords;
     private String Description;
     private String Category;
-    private Long Category_ID;
+    private Integer Category_ID;
     private String Brand;
     private String Child_SKU;
     private String Child_Price;
@@ -41,14 +40,4 @@ public class AllProducts {
     private String Rating_Avg;
     private String Rating_Count;
     private String Inventory_Count;
-    private String Date_Created;
-
-
-    @XmlElement(name = "AllProducts")
-    private final List<AllProducts> AllProductsList = new ArrayList<>();
-
-
-    public List<AllProducts> getAllProductsList() {
-        return this.AllProductsList;
-    }
 }
