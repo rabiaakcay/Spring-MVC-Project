@@ -1,99 +1,78 @@
 package com.id3academy.springmvcproject.service;
 
-import com.id3academy.springmvcproject.config.ProductsServiceConfig;
 import com.id3academy.springmvcproject.model.Products;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import javax.net.ssl.SSLContext;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 public class ProductsService {
-    private final RestTemplate restTemplate;
 
-    @Autowired
-    private ProductsServiceConfig productsServiceConfig;
-
-        public byte[] getProductsFromUrl() {
-        ResponseEntity<byte[]> response = null;
+    public List<Products> document() {
+        List<Products> productsList = new ArrayList<>();
         try {
-            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            String urlString = "http://a.cdn.searchspring.net/help/feeds/searchspring.xml";
 
-            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-            SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
-                    .loadTrustMaterial(null, acceptingTrustStrategy)
-                    .build();
-            SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
-            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
-            HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-            requestFactory.setHttpClient(httpClient);
-            RestTemplate restTemplate = new RestTemplate(requestFactory);
-            HttpHeaders headers = new HttpHeaders();
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-            response = restTemplate.exchange(productsServiceConfig.getUrl(), HttpMethod.GET, entity, byte[].class);
-            InputStream inputStream = new ByteArrayInputStream(Objects.requireNonNull(response.getBody()));
-//            document = builder.parse(inputStream);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new URL(urlString).openStream());
+            doc.getDocumentElement().normalize();
+
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            NodeList nList = doc.getElementsByTagName("Product");
+            System.out.println("----------------------------");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+
+                    Products products = new Products();
+
+                    products.setProduct_ID(eElement.getElementsByTagName("Product_ID").item(0).getTextContent());
+                    products.setSKU(eElement.getElementsByTagName("SKU").item(0).getTextContent());
+                    products.setName(eElement.getElementsByTagName("Name").item(0).getTextContent());
+                    products.setProduct_URL(eElement.getElementsByTagName("Product_URL").item(0).getTextContent());
+                    products.setPrice(eElement.getElementsByTagName("Price").item(0).getTextContent());
+                    products.setRetail_Price(eElement.getElementsByTagName("Retail_Price").item(0).getTextContent());
+                    products.setThumbnail_URL(eElement.getElementsByTagName("Thumbnail_URL").item(0).getTextContent());
+                    products.setSearch_Keywords(eElement.getElementsByTagName("Search_Keywords").item(0).getTextContent());
+                    products.setDescription(eElement.getElementsByTagName("Description").item(0).getTextContent());
+                    products.setCategory(eElement.getElementsByTagName("Category").item(0).getTextContent());
+                    products.setCategory_ID(eElement.getElementsByTagName("Category_ID").item(0).getTextContent());
+                    products.setBrand(eElement.getElementsByTagName("Brand").item(0).getTextContent());
+                    products.setChild_SKU(eElement.getElementsByTagName("Child_SKU").item(0).getTextContent());
+                    products.setChild_Price(eElement.getElementsByTagName("Child_Price").item(0).getTextContent());
+                    products.setColor(eElement.getElementsByTagName("Color").item(0).getTextContent());
+                    products.setColor_Family(eElement.getElementsByTagName("Color_Family").item(0).getTextContent());
+                    products.setColor_Swatches(eElement.getElementsByTagName("Color_Swatches").item(0).getTextContent());
+                    products.setSize(eElement.getElementsByTagName("Size").item(0).getTextContent());
+                    products.setShoe_Size(eElement.getElementsByTagName("Shoe_Size").item(0).getTextContent());
+                    products.setPants_Size(eElement.getElementsByTagName("Pants_Size").item(0).getTextContent());
+                    products.setOccassion(eElement.getElementsByTagName("Occassion").item(0).getTextContent());
+                    products.setSeason(eElement.getElementsByTagName("Season").item(0).getTextContent());
+                    products.setBadges(eElement.getElementsByTagName("Badges").item(0).getTextContent());
+                    products.setRating_Avg(eElement.getElementsByTagName("Rating_Avg").item(0).getTextContent());
+                    products.setRating_Count(eElement.getElementsByTagName("Rating_Count").item(0).getTextContent());
+                    products.setInventory_Count(eElement.getElementsByTagName("Inventory_Count").item(0).getTextContent());
+                    products.setDate_Created(eElement.getElementsByTagName("Date_Created").item(0).getTextContent());
+
+                    productsList.add(products);
+                }
+            }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return null;
+            e.printStackTrace();
         }
-        return response.getBody();
+        return productsList;
     }
-
-//    public Products parseProducts() throws ParserConfigurationException, NoSuchAlgorithmException, KeyManagementException, KeyStoreException, SAXException, IOException e) {
-//        {
-//            String urlString = "http://a.cdn.searchspring.net/help/feeds/searchspring.xml";
-//            URL url = new URL(urlString);
-//            URLConnection conn = url.openConnection();
-//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder builder = factory.newDocumentBuilder();
-//            Document doc = builder.parse(conn.getInputStream());
-//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//            Transformer xform = transformerFactory.newTransformer();
-//            xform.transform(new DOMSource(doc).new StreamResult(System.out));
-//
-//        }
-//}
-
-
-
-//    public List<Products> execute(){
-//        log.info("Get products from server");
-//
-//    }
-
-    }
-
+}

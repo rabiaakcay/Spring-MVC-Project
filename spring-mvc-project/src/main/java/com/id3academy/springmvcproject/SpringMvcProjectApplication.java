@@ -7,14 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class SpringMvcProjectApplication extends SpringBootServletInitializer{
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
+public class SpringMvcProjectApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringMvcProjectApplication.class, args);
-
 	}
+
 }
