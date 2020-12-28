@@ -1,7 +1,9 @@
 package com.id3academy.springmvcproject.service;
 
+import com.id3academy.springmvcproject.dao.ProductsDao;
 import com.id3academy.springmvcproject.model.Products;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,6 +18,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class ProductsService {
+    @Autowired
+    private ProductsDao productsDao;
 
     public List<Products> document() {
         List<Products> productsList = new ArrayList<>();
@@ -67,6 +71,8 @@ public class ProductsService {
                     products.setInventory_Count(eElement.getElementsByTagName("Inventory_Count").item(0).getTextContent());
                     products.setDate_Created(eElement.getElementsByTagName("Date_Created").item(0).getTextContent());
 
+                    productsDao.insertProducts(products);
+
                     productsList.add(products);
                 }
             }
@@ -74,5 +80,11 @@ public class ProductsService {
             e.printStackTrace();
         }
         return productsList;
+    }
+
+    public List<String> execute(String keyword){
+        List<String> listProducts = productsDao.selectProducts(keyword);
+
+        return listProducts;
     }
 }

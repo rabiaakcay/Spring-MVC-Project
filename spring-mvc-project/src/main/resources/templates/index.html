@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Product Manager</title>
+    <link rel= "stylesheet"
+          href= "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div align="center">
+
+    <h1>Product Manager</h1>
+
+    <br/><br/>
+    <form th:action="@{/}">
+        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+        &nbsp;
+        <input class="btn btn-primary" type="submit" value="Search" />
+
+        &nbsp;
+        <input class="btn btn-primary" type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+    </form>
+    <br/><br/>
+<div class="container">
+    <div class="row">
+        <table class="table table-responsive table-bordered table-striped": th:border="1">
+        <thead>
+            <th>Product_ID</th>
+            <th>SKU</th>
+            <th>Name</th>
+            <th>Product_URL</th>
+            <th>Price</th>
+            <th>Retail_Price</th>
+            <th>Thumbnail_URL</th>
+            <th>Search_Keywords</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Category_ID</th>
+            <th>Brand</th>
+            <th>Child_SKU</th>
+            <th>Child_Price</th>
+            <th>Color</th>
+            <th>Color_Family</th>
+            <th>Color_Swatches</th>
+            <th>Size</th>
+            <th>Shoe_Size</th>
+            <th>Pants_Size</th>
+            <th>Occassion</th>
+            <th>Season</th>
+            <th>Badges</th>
+            <th>Rating_Avg</th>
+            <th>Rating_Count</th>
+            <th>Inventory_Count</th>
+            <th>Date_Created</th>
+      </thead>
+    </tbody>
+        <tr th:each="products : ${listProducts}"
+            th:style="${listProducts} ? 'color: black' : 'color: blue;'">
+
+            <td th:text="${products.Product_ID}">Product ID</td>
+            <td th:text="${products.SKU}">SKU</td>
+            <td th:text="${products.Name}">Name</td>
+            <td th:text="${products.Product_URL}">Product_URL/td>
+            <td th:text="${products.Price}">Price</td>
+            <td th:text="${products.Retail_Price}">Retail_Price</td>
+            <td th:text="${products.Thumbnail_URL}">Thumbnail_URL</td>
+            <td th:text="${products.Search_Keywords}">Search_Keywords</td>
+            <td th:text="${products.Description}">Description</td>
+            <td th:text="${products.Category}">Category</td>
+            <td th:text="${products.Category_ID}">Category ID</td>
+            <td th:text="${products.Brand}">Brand</td>
+            <td th:text="${products.Child_SKU}">Child_SKU</td>
+            <td th:text="${products.Child_Price}">Child_Price</td>
+            <td th:text="${products.Color}">Color</td>
+            <td th:text="${products.Color_Family}">Color_Family</td>
+            <td th:text="${products.Color_Swatches}">Color_Swatches</td>
+            <td th:text="${products.Size}">Size</td>
+            <td th:text="${products.Shoe_Size}">Shoe_Size</td>
+            <td th:text="${products.Pants_Size}">Pants_Size</td>
+            <td th:text="${products.Occassion}">Occassion</td>
+            <td th:text="${products.Season}">Season</td>
+            <td th:text="${products.Badges}">Badges</td>
+            <td th:text="${products.Rating_Avg}">Rating_Avg</td>
+            <td th:text="${products.Rating_Count}">Rating_Count</td>
+            <td th:text="${products.Inventory_Count}">Inventory_Count</td>
+            <td th:text="${products.Date_Created}">Date_Created</td>
+        </tr>
+     </tbody>
+  </table>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+</body>
+</html>

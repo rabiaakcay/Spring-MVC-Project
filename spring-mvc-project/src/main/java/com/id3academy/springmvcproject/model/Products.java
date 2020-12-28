@@ -2,8 +2,14 @@ package com.id3academy.springmvcproject.model;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
+@Entity
 @Data
+@Table(name="products")
 public class Products {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private String Product_ID;
     private String SKU;
     private String Name;
